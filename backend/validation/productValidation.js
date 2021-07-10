@@ -11,4 +11,14 @@ const productValidation = (product) => {
   return productValidationSchema.validate(product, { convert: false });
 };
 
-module.exports = productValidation;
+const updateValidation = (data) => {
+  const updateValidationSchema = joi.object({
+    quantity: joi.number().positive().precision(0).required(),
+    price: joi.number().positive().precision(2).required(),
+  });
+
+  return updateValidationSchema.validate(data, { convert: false });
+};
+
+module.exports.productValidation = productValidation;
+module.exports.updateValidation = updateValidation;
