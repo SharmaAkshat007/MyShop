@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   Product.init(
     {
       userId: {
-        type: sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: "Users",

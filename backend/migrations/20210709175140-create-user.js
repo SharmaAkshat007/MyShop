@@ -21,11 +21,15 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      created_at: {
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
