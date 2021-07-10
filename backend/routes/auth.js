@@ -44,7 +44,7 @@ router.post("/signup", async (req, res, next) => {
           password: hash,
         })
           .then((user) => {
-            return res.status(200).json({
+            return res.status(201).json({
               error: false,
               message: "User created successfully!",
             });
@@ -96,6 +96,7 @@ router.post("/login", async (req, res, next) => {
       }
       if (match === true) {
         const userData = {
+          id: user[0].id,
           firstName: user[0].firstName,
           lastName: user[0].lastName,
           email: user[0].email,
