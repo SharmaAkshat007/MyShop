@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { doLogin } from "../../redux/auth/authReducer";
-import { Form, Button, Container, Alert } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import validator from "../../utils/validation";
 import getToken from "../../utils/getToken";
+import AlertError from "../home/AlertError";
 
 function Login(props) {
   const { data } = props.reqState;
@@ -33,8 +34,8 @@ function Login(props) {
     const password = e.target.password.value;
 
     const isValid = validator({
-      email,
-      password,
+      first: email,
+      second: password,
     });
 
     if (isValid) {
@@ -54,11 +55,7 @@ function Login(props) {
         >
           Login
         </div>
-        {error === true ? (
-          <Alert variant="danger">{message}</Alert>
-        ) : (
-          <span></span>
-        )}
+        {error === true ? <AlertError message={message} /> : <span></span>}
         <Form onSubmit={loginAction}>
           <Form.Group controlId="email">
             <Form.Label>Email address</Form.Label>

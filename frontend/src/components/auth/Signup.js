@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { doSignup } from "../../redux/auth/authReducer";
-import { Form, Button, Container, Alert } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import validator from "../../utils/validation";
+import AlertError from "../home/AlertError";
 
 function Signup(props) {
   const { data } = props.reqState;
@@ -33,10 +34,10 @@ function Signup(props) {
     const password = e.target.password.value;
 
     const isValid = validator({
-      firstName,
-      lastName,
-      email,
-      password,
+      first: email,
+      second: password,
+      third: firstName,
+      fourth: lastName,
     });
 
     if (isValid) {
@@ -61,11 +62,7 @@ function Signup(props) {
           SignUp
         </div>
 
-        {error === true ? (
-          <Alert variant="danger">{message}</Alert>
-        ) : (
-          <span></span>
-        )}
+        {error === true ? <AlertError message={message} /> : <span></span>}
 
         <Form onSubmit={signupAction}>
           <Form.Group controlId="firstName">

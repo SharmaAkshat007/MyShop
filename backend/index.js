@@ -11,6 +11,14 @@ app.use("/auth", require("./routes/auth"));
 
 app.use("/products", verify, require("./routes/products"));
 
+app.get("/user", verify, (req, res) => {
+  res.status(200).json({
+    error: false,
+    message: "User decoded successfully",
+    user: req.user,
+  });
+});
+
 app.use((err, req, res, next) => {
   console.error(err);
   return res.status(err.status || 500).json({

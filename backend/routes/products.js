@@ -41,6 +41,38 @@ router.get("", async (req, res, next) => {
   }
 });
 
+router.get("/my/listing", async (req, res, next) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        userId: req.user.id,
+      },
+    });
+
+    const result = products.map((product) => {
+      return {
+        id: product.id,
+        title: product.title,
+        description: product.description,
+        quantity: product.quantity,
+        price: product.price,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        email: req.user.email,
+      };
+    });
+
+    res.status(200).json({
+      error: false,
+      message: "Products fetched successfully",
+      products: result,
+      user: req.user,
+    });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 router.post("/create", async (req, res, next) => {
   const response = productValidation(req.body);
 
@@ -65,6 +97,7 @@ router.post("/create", async (req, res, next) => {
       return res.status(201).json({
         error: false,
         message: "Product created successfully!",
+        user: req.user,
       });
     })
     .catch((err) => {
@@ -130,25 +163,28 @@ router.delete("/delete/:id", async (req, res, next) => {
     const product = await Product.findAll({
       where: {
         id: productId,
+        userId: req.user.id,
       },
     });
 
     if (product.length === 0) {
       return res.status(406).json({
         error: true,
-        message: `Product having id ${productId} does not exists`,
+        message: `Product having id ${productId} does not exists or you do not have permission to delete this resource`,
       });
     }
 
     Product.destroy({
       where: {
         id: productId,
+        userId: req.user.id,
       },
     })
       .then(() => {
         return res.status(200).json({
           error: false,
           message: `Product with id ${productId} deleted successfully!`,
+          user: req.user,
         });
       })
       .catch((err) => {

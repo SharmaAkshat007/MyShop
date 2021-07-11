@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import getToken from "../../utils/getToken";
 import { connect } from "react-redux";
 import { products } from "../../redux/home/homeReducer";
-import { Navbar, Nav, Container, Alert } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
+import NavBar from "./NavBar";
+import AlertError from "./AlertError";
 
 function Home(props) {
   const { error, message, products, user } = props.reqState;
@@ -18,50 +20,9 @@ function Home(props) {
   if (getToken().present) {
     return (
       <>
-        <Navbar
-          sticky="top"
-          collapseOnSelect
-          expand="lg"
-          bg="success"
-          variant="dark"
-        >
-          <Link to="/home">
-            <Navbar.Brand>MyShop</Navbar.Brand>
-          </Link>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav style={{ marginLeft: `10px` }}>
-              <Link
-                style={{ color: "white", textDecoration: "none" }}
-                to="/create"
-              >
-                Create Listing
-              </Link>
-            </Nav>
-            <Nav style={{ marginRight: "auto", marginLeft: `10px` }}>
-              <Link
-                style={{ color: "white", textDecoration: "none" }}
-                to="/my/listings"
-              >
-                My Listings
-              </Link>
-            </Nav>
-            <Nav>
-              <Nav style={{ color: "white" }} className="mr-5">
-                Welcome {user !== undefined && user.firstName}{" "}
-                {user !== undefined && user.lastName}
-              </Nav>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <NavBar user={user} />
         {error === true ? (
-          <Alert
-            className="mt-5"
-            style={{ width: `70vw`, margin: "auto", textAlign: "center" }}
-            variant="danger"
-          >
-            {message}
-          </Alert>
+          <AlertError message={message} />
         ) : (
           <Container style={{ width: `70vw` }}>
             <div
@@ -73,8 +34,8 @@ function Home(props) {
             {products !== undefined &&
               products.map((product) => {
                 return (
-                  <div className="mt-5 mb-5">
-                    <ProductCard productInfo={product} />
+                  <div key={product.id} className="mt-5 mb-5">
+                    <ProductCard productInfo={product} type="home" />
                   </div>
                 );
               })}
