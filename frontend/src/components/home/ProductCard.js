@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
-//import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 function ProductCard(props) {
   const {
@@ -35,7 +35,14 @@ function ProductCard(props) {
         {props.type === "myListing" ? (
           <div>
             <hr></hr>
-            <Button variant="success">Update</Button>
+            <Link
+              to={{
+                pathname: `/update/${id}`,
+                state: { prevQuantity: quantity, prevPrice: price },
+              }}
+            >
+              <Button variant="success">Update</Button>
+            </Link>
             <Button onClick={deleteProduct} className="ml-3" variant="danger">
               Delete
             </Button>

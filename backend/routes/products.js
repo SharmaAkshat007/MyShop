@@ -81,6 +81,7 @@ router.post("/create", async (req, res, next) => {
     return res.status(400).json({
       error: true,
       message: messages[0],
+      user: req.user,
     });
   }
 
@@ -113,6 +114,7 @@ router.put("/update/:id", async (req, res, next) => {
     return res.status(400).json({
       error: true,
       message: messages[0],
+      user: req.user,
     });
   }
 
@@ -124,6 +126,7 @@ router.put("/update/:id", async (req, res, next) => {
     const product = await Product.findAll({
       where: {
         id: productId,
+        userId: req.user.id,
       },
     });
 
@@ -131,6 +134,7 @@ router.put("/update/:id", async (req, res, next) => {
       return res.status(406).json({
         error: true,
         message: `Product having id ${productId} does not exists`,
+        user: req.user,
       });
     }
 
@@ -139,6 +143,7 @@ router.put("/update/:id", async (req, res, next) => {
       {
         where: {
           id: productId,
+          userId: req.user.id,
         },
       }
     )
@@ -146,6 +151,7 @@ router.put("/update/:id", async (req, res, next) => {
         return res.status(200).json({
           error: false,
           message: `Product with id ${productId} updated successfully!`,
+          user: req.user,
         });
       })
       .catch((err) => {
@@ -171,6 +177,7 @@ router.delete("/delete/:id", async (req, res, next) => {
       return res.status(406).json({
         error: true,
         message: `Product having id ${productId} does not exists or you do not have permission to delete this resource`,
+        user: req.user,
       });
     }
 

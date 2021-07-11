@@ -8,6 +8,7 @@ import Home from "./components/home/Home";
 import Wrapper from "./components/Wrapper";
 import CreateListing from "./components/home/CreateListing";
 import MyListing from "./components/home/MyListing";
+import ProductUpdate from "./components/home/ProductUpdate";
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
           </Route>
           <Route exact path="/my/listings">
             <MyListing />
+          </Route>
+          <Route exact path="/update/:id">
+            <ProductUpdate />
           </Route>
         </Switch>
       </div>

@@ -6,6 +6,7 @@ import {
   GET_USER,
   CREATE_PRODUCT,
   DELETE,
+  UPDATE,
 } from "./homeActionTypes";
 
 import {
@@ -16,6 +17,7 @@ import {
   getUser,
   createProduct,
   deleteProduct,
+  updateProduct,
 } from "./homeActions";
 
 import axios from "axios";
@@ -71,6 +73,12 @@ export const homeReducer = (state = intitialState, action) => {
       };
 
     case DELETE:
+      return {
+        loading: false,
+        data: action.payload,
+      };
+
+    case UPDATE:
       return {
         loading: false,
         data: action.payload,
@@ -155,6 +163,27 @@ export const deleteProd = (id, products) => {
       .then((res) => {
         res.data.products = products;
         dispatch(deleteProduct(res.data));
+      })
+      .catch((err) => {
+        dispatch(error(err.response.data));
+      });
+  };
+};
+
+export const update = (id, price, quantity) => {
+  return function (dispatch) {
+    dispatch(requestProducts());
+    axios
+      .put(
+        `http://localhost:3000/products/update/${id}`,
+        {
+          quantity: quantity,
+          price: price,
+        },
+        options
+      )
+      .then((res) => {
+        dispatch(updateProduct(res.data));
       })
       .catch((err) => {
         dispatch(error(err.response.data));

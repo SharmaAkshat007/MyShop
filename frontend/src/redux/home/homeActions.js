@@ -6,6 +6,7 @@ import {
   GET_USER,
   CREATE_PRODUCT,
   DELETE,
+  UPDATE,
 } from "./homeActionTypes";
 
 export const getProducts = (data) => {
@@ -52,6 +53,13 @@ export const createProduct = (data) => {
 export const deleteProduct = (data) => {
   return {
     type: DELETE,
+    payload: data,
+  };
+};
+
+export const updateProduct = (data) => {
+  return {
+    type: UPDATE,
     payload: data,
   };
 };
