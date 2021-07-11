@@ -147,12 +147,13 @@ export const create = (title, description, quantity, price) => {
   };
 };
 
-export const deleteProd = (id) => {
+export const deleteProd = (id, products) => {
   return function (dispatch) {
-    dispatch(requestProducts);
+    dispatch(requestProducts());
     axios
       .delete(`http://localhost:3000/products/delete/${id}`, options)
       .then((res) => {
+        res.data.products = products;
         dispatch(deleteProduct(res.data));
       })
       .catch((err) => {

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, Card } from "react-bootstrap";
-import { connect } from "react-redux";
-import { deleteProd } from "../../redux/home/homeReducer";
+//import { connect } from "react-redux";
 
 function ProductCard(props) {
   const {
@@ -15,17 +14,12 @@ function ProductCard(props) {
     quantity,
   } = props.productInfo;
 
-  const deleteProduct = props.deleteProduct;
+  const deleteProductAction = props.deleteProductAction;
 
-  const { error, data } = props.reqState;
-
-  useEffect(() => {
-    console.log(data);
-  });
-
-  const deleteProductAction = (e) => {
-    deleteProduct(id);
+  const deleteProduct = () => {
+    deleteProductAction(id);
   };
+
   return (
     <Card>
       <Card.Header style={{ backgroundColor: "#ffc107" }}>
@@ -42,11 +36,7 @@ function ProductCard(props) {
           <div>
             <hr></hr>
             <Button variant="success">Update</Button>
-            <Button
-              onClick={deleteProductAction}
-              className="ml-3"
-              variant="danger"
-            >
+            <Button onClick={deleteProduct} className="ml-3" variant="danger">
               Delete
             </Button>
           </div>
@@ -58,16 +48,4 @@ function ProductCard(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    reqState: state.homeReducer.data,
-  };
-};
-
-const mapStateToDispatch = (dispatch) => {
-  return {
-    deleteProduct: (id) => dispatch(deleteProd(id)),
-  };
-};
-
-export default connect(mapStateToProps, mapStateToDispatch)(ProductCard);
+export default ProductCard;

@@ -3,19 +3,29 @@ import NavBar from "./NavBar";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import getToken from "../../utils/getToken";
-import { myProducts } from "../../redux/home/homeReducer";
+import { myProducts, deleteProd } from "../../redux/home/homeReducer";
 import { Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import AlertError from "./AlertError";
 
 function MyListing(props) {
-  const { error, message, user, products } = props.reqState;
+  const { error, message, user } = props.reqState.data;
+
+  let { products } = props.reqState.data;
 
   const getMyProducts = props.getMyProducts;
+
+  const deleteProduct = props.deleteProduct;
 
   useEffect(() => {
     getMyProducts();
   }, []);
+
+  const deleteProductAction = (id) => {
+    products = products.filter((product) => product.id !== id);
+
+    deleteProduct(id, products);
+  };
 
   if (getToken().present) {
     return (
@@ -33,7 +43,11 @@ function MyListing(props) {
             products.map((product) => {
               return (
                 <div key={product.id} className="mt-5 mb-5">
-                  <ProductCard productInfo={product} type="myListing" />
+                  <ProductCard
+                    deleteProductAction={deleteProductAction}
+                    productInfo={product}
+                    type="myListing"
+                  />
                 </div>
               );
             })}
@@ -47,13 +61,14 @@ function MyListing(props) {
 
 const mapStateToProps = (state) => {
   return {
-    reqState: state.homeReducer.data,
+    reqState: state.homeReducer,
   };
 };
 
 const mapStateToDispatch = (dispatch) => {
   return {
     getMyProducts: () => dispatch(myProducts()),
+    deleteProduct: (id, products) => dispatch(deleteProd(id, products)),
   };
 };
 
