@@ -6,6 +6,8 @@ import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import Home from "./components/home/Home";
 import Wrapper from "./components/Wrapper";
+import CreateListing from "./components/home/CreateListing";
+import MyListing from "./components/home/MyListing";
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
           </Route>
           <Route exact path="/home">
             <Home />
+          </Route>
+          <Route exact path="/create">
+            <CreateListing />
+          </Route>
+          <Route exact path="/my/listings">
+            <MyListing />
           </Route>
         </Switch>
       </div>

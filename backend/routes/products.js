@@ -9,20 +9,36 @@ const {
 } = require("../validation/productValidation");
 
 const Product = db["Product"];
+const User = db["User"];
 
-router.get("", (req, res, next) => {
-  Product.findAll()
-    .then((products) => {
-      return res.status(200).json({
-        error: false,
-        message: "All products fecthed successfully",
-        products: products,
-        user: req.user,
-      });
-    })
-    .catch((err) => {
-      return next(err);
+router.get("", async (req, res, next) => {
+  try {
+    const products = await Product.findAll({
+      include: User,
     });
+
+    const result = products.map((product) => {
+      return {
+        id: product.id,
+        title: product.title,
+        description: product.description,
+        quantity: product.quantity,
+        price: product.price,
+        firstName: product.User.firstName,
+        lastName: product.User.lastName,
+        email: product.User.email,
+      };
+    });
+
+    res.status(200).json({
+      error: false,
+      message: "All products fetched successfully",
+      products: result,
+      user: req.user,
+    });
+  } catch (err) {
+    return next(err);
+  }
 });
 
 router.post("/create", async (req, res, next) => {

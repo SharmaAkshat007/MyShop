@@ -1,5 +1,5 @@
-import { LOGIN, LOGOUT, SIGNUP, REQUEST, ERROR } from "./authActionTypes";
-import { login, logout, signup, request, error } from "./authAction";
+import { LOGIN, SIGNUP, REQUEST, ERROR } from "./authActionTypes";
+import { login, signup, request, error } from "./authAction";
 
 import axios from "axios";
 
@@ -22,13 +22,6 @@ export const authReducer = (state = intitialState, action) => {
         loading: false,
         isAuthenticated: false,
         data: action.payload,
-      };
-
-    case LOGOUT:
-      return {
-        loading: false,
-        isAuthenticated: false,
-        data: {},
       };
 
     case REQUEST:
@@ -82,12 +75,5 @@ export const doSignup = (firstName, lastName, email, password) => {
       .catch((err) => {
         dispatch(error(err.response.data));
       });
-  };
-};
-
-export const doLogout = () => {
-  return function (dispatch) {
-    localStorage.removeItem("jwt-token");
-    dispatch(logout());
   };
 };

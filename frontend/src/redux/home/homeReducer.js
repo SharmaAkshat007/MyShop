@@ -1,5 +1,5 @@
-import { GET_PRODUCTS, REQUEST, ERROR } from "./homeActionTypes";
-import { getProducts, request, error } from "./homeActions";
+import { GET_PRODUCTS, REQUEST_PRODUCTS, ERROR } from "./homeActionTypes";
+import { getProducts, requestProducts, error } from "./homeActions";
 import axios from "axios";
 import getToken from "../../utils/getToken";
 
@@ -15,7 +15,7 @@ export const homeReducer = (state = intitialState, action) => {
         data: action.payload,
       };
 
-    case REQUEST:
+    case REQUEST_PRODUCTS:
       return {
         ...state,
         loading: true,
@@ -34,7 +34,7 @@ export const homeReducer = (state = intitialState, action) => {
 
 export const products = () => {
   return function (dispatch) {
-    dispatch(request());
+    dispatch(requestProducts());
     axios
       .get("http://localhost:3000/products/", {
         headers: {

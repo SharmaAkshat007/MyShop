@@ -2,17 +2,17 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Product.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
+    }
   }
   Product.init(
     {
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: "Users",
-          key: "id",
-        },
       },
       title: {
         type: DataTypes.STRING,

@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, REQUEST, ERROR } from "./homeActionTypes";
+import { GET_PRODUCTS, REQUEST_PRODUCTS, ERROR } from "./homeActionTypes";
 
 export const getProducts = (data) => {
   return {
@@ -7,9 +7,9 @@ export const getProducts = (data) => {
   };
 };
 
-export const request = () => {
+export const requestProducts = () => {
   return {
-    type: REQUEST,
+    type: REQUEST_PRODUCTS,
   };
 };
 

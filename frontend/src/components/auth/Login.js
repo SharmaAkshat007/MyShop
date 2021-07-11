@@ -22,7 +22,7 @@ function Login(props) {
         setError(true);
       } else if (data.error === false) {
         setError(false);
-        localStorage.setItem("jwt-token", data.jwtToken);
+        sessionStorage.setItem("jwt-token", data.jwtToken);
       }
     }
   }, [data]);
