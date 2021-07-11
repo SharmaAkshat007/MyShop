@@ -85,4 +85,9 @@ export const doSignup = (firstName, lastName, email, password) => {
   };
 };
 
-export const doLogout = () => {};
+export const doLogout = () => {
+  return function (dispatch) {
+    localStorage.removeItem("jwt-token");
+    dispatch(logout());
+  };
+};

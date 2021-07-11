@@ -44,7 +44,7 @@ function Login(props) {
     }
   };
 
-  if (data.error !== undefined && data.error === false && getToken()) {
+  if (data.error !== undefined && data.error === false && getToken().present) {
     return <Redirect to="/home"></Redirect>;
   } else {
     return (

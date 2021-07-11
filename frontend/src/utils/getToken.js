@@ -2,9 +2,15 @@ const getToken = () => {
   const token = localStorage.getItem("jwt-token");
 
   if (token !== null && token.length !== 0) {
-    return true;
+    return {
+      present: true,
+      token: token,
+    };
   } else {
-    return false;
+    return {
+      present: false,
+      token: token,
+    };
   }
 };
 

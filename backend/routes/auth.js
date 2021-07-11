@@ -54,7 +54,7 @@ router.post("/signup", async (req, res, next) => {
           });
       });
     } else {
-      return res.status(406).json({
+      return res.status(202).json({
         error: true,
         message: "User with similar email-id already exists",
       });

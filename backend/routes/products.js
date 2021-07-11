@@ -17,6 +17,7 @@ router.get("", (req, res, next) => {
         error: false,
         message: "All products fecthed successfully",
         products: products,
+        user: req.user,
       });
     })
     .catch((err) => {
