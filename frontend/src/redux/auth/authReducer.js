@@ -1,12 +1,12 @@
-import { LOGIN, SIGNUP, REQUEST, ERROR } from "./authActionTypes";
-import { login, signup, request, error } from "./authAction";
+import { LOGIN, SIGNUP, REQUEST, ERROR, LOGOUT } from "./authActionTypes";
+import { login, signup, request, error, logout } from "./authAction";
 
 import axios from "axios";
 
 const intitialState = {
   loading: false,
   isAuthenticated: false,
-  data: {},
+  authdata: {},
 };
 
 export const authReducer = (state = intitialState, action) => {
@@ -15,13 +15,13 @@ export const authReducer = (state = intitialState, action) => {
       return {
         loading: false,
         isAuthenticated: true,
-        data: action.payload,
+        authdata: action.payload,
       };
     case SIGNUP:
       return {
         loading: false,
         isAuthenticated: false,
-        data: action.payload,
+        authdata: action.payload,
       };
 
     case REQUEST:
@@ -34,7 +34,13 @@ export const authReducer = (state = intitialState, action) => {
       return {
         loading: false,
         isAuthenticated: false,
-        data: action.payload,
+        authdata: action.payload,
+      };
+    case LOGOUT:
+      return {
+        loading: false,
+        isAuthenticated: false,
+        authdata: action.payload,
       };
 
     default:
@@ -75,5 +81,18 @@ export const doSignup = (firstName, lastName, email, password) => {
       .catch((err) => {
         dispatch(error(err.response.data));
       });
+  };
+};
+
+export const doLogout = () => {
+  return function (dispatch) {
+    dispatch(request());
+    sessionStorage.removeItem("jwt-token");
+    dispatch(
+      logout({
+        error: false,
+        message: "Logged out!",
+      })
+    );
   };
 };

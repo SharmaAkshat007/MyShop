@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import NavBar from "./NavBar";
-import getToken from "../../utils/getToken";
 import { Redirect } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
 import { user, create } from "../../redux/home/homeReducer";
@@ -53,7 +52,9 @@ function CreateListing(props) {
     }
   };
 
-  if (getToken().present) {
+  if (message === "Not Authenticated") {
+    return <Redirect to="/login"></Redirect>;
+  } else {
     if (
       data.error !== undefined &&
       data.error === false &&
@@ -64,7 +65,7 @@ function CreateListing(props) {
       return (
         <>
           <NavBar user={data.user} />
-          {error === true ? <AlertError message={message} /> : <span></span>}
+
           <Container>
             <div
               className="mt-5"
@@ -72,6 +73,7 @@ function CreateListing(props) {
             >
               Add Product
             </div>
+            {error === true ? <AlertError message={message} /> : <span></span>}
             <Form onSubmit={createProduct}>
               <Form.Group controlId="title">
                 <Form.Label>Title</Form.Label>
@@ -106,8 +108,6 @@ function CreateListing(props) {
         </>
       );
     }
-  } else {
-    return <Redirect to="/login"></Redirect>;
   }
 }
 const mapStateToProps = (state) => {

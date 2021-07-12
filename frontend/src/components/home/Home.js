@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import getToken from "../../utils/getToken";
 import { connect } from "react-redux";
 import { products } from "../../redux/home/homeReducer";
 import { Container } from "react-bootstrap";
@@ -17,7 +16,9 @@ function Home(props) {
     getProducts();
   }, []);
 
-  if (getToken().present) {
+  if (message === "Not Authenticated") {
+    return <Redirect to="/login"></Redirect>;
+  } else {
     return (
       <>
         <NavBar user={user} />
@@ -43,8 +44,6 @@ function Home(props) {
         )}
       </>
     );
-  } else {
-    return <Redirect to="/login"></Redirect>;
   }
 }
 

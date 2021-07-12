@@ -5,6 +5,8 @@ const verify = (req, res, next) => {
 
   const token = authHeader && authHeader.split(" ")[1];
 
+  console.log(authHeader);
+
   if (token == null) {
     return res.status(401).json({
       error: true,

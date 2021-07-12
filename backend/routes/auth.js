@@ -102,6 +102,7 @@ router.post("/login", async (req, res, next) => {
           email: user[0].email,
         };
         const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
+
         return res.status(200).json({
           error: false,
           message: "Authentication done",

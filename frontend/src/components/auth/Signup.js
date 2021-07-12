@@ -7,7 +7,7 @@ import validator from "../../utils/validation";
 import AlertError from "../home/AlertError";
 
 function Signup(props) {
-  const { data } = props.reqState;
+  const { authdata } = props.reqState;
   const signup = props.signup;
 
   const [error, setError] = useState(false);
@@ -16,15 +16,15 @@ function Signup(props) {
   );
 
   useEffect(() => {
-    if (data.error !== undefined) {
-      if (data.error === true) {
-        setMessage(data.message);
+    if (authdata.error !== undefined) {
+      if (authdata.error === true) {
+        setMessage(authdata.message);
         setError(true);
-      } else if (data.error === false) {
+      } else if (authdata.error === false) {
         setError(false);
       }
     }
-  }, [data]);
+  }, [authdata]);
 
   const signupAction = (e) => {
     e.preventDefault();
@@ -47,7 +47,10 @@ function Signup(props) {
     }
   };
 
-  if (data.error !== undefined && data.error === false) {
+  if (
+    authdata.message !== undefined &&
+    authdata.message === "User created successfully!"
+  ) {
     return <Redirect to="/login"></Redirect>;
   } else {
     return (

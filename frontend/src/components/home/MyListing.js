@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import NavBar from "./NavBar";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import getToken from "../../utils/getToken";
 import { myProducts, deleteProd } from "../../redux/home/homeReducer";
 import { Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
@@ -27,7 +26,9 @@ function MyListing(props) {
     deleteProduct(id, products);
   };
 
-  if (getToken().present) {
+  if (message === "Not Authenticated") {
+    return <Redirect to="/login"></Redirect>;
+  } else {
     return (
       <>
         <NavBar user={user} />
@@ -54,8 +55,6 @@ function MyListing(props) {
         </Container>
       </>
     );
-  } else {
-    return <Redirect to="/login"></Redirect>;
   }
 }
 

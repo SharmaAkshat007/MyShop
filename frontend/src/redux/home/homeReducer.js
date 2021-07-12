@@ -28,12 +28,6 @@ const intitialState = {
   data: {},
 };
 
-const options = {
-  headers: {
-    authorization: `Bearer ${getToken().token}`,
-  },
-};
-
 export const homeReducer = (state = intitialState, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
@@ -91,102 +85,188 @@ export const homeReducer = (state = intitialState, action) => {
 
 export const products = () => {
   return function (dispatch) {
-    dispatch(requestProducts());
-    axios
-      .get("http://localhost:3000/products/", options)
-      .then((res) => {
-        dispatch(getProducts(res.data));
-      })
-      .catch((err) => {
-        dispatch(error(err.response.data));
-      });
+    const token = getToken();
+
+    if (token === undefined) {
+      dispatch(
+        error({
+          error: true,
+          message: "Not Authenticated",
+        })
+      );
+    } else {
+      dispatch(requestProducts());
+      axios
+        .get("http://localhost:3000/products/", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          dispatch(getProducts(res.data));
+        })
+        .catch((err) => {
+          dispatch(error(err.response.data));
+        });
+    }
   };
 };
 
 export const myProducts = () => {
   return function (dispatch) {
-    dispatch(requestProducts());
-    axios
-      .get("http://localhost:3000/products/my/listing", options)
-      .then((res) => {
-        dispatch(getMyProducts(res.data));
-      })
-      .catch((err) => {
-        dispatch(error(err.response.data));
-      });
+    const token = getToken();
+
+    if (token === undefined) {
+      dispatch(
+        error({
+          error: true,
+          message: "Not Authenticated",
+        })
+      );
+    } else {
+      dispatch(requestProducts());
+      axios
+        .get("http://localhost:3000/products/my/listing", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          dispatch(getMyProducts(res.data));
+        })
+        .catch((err) => {
+          dispatch(error(err.response.data));
+        });
+    }
   };
 };
 
 export const user = () => {
   return function (dispatch) {
-    dispatch(requestProducts());
-    axios
-      .get("http://localhost:3000/user/", options)
-      .then((res) => {
-        dispatch(getUser(res.data));
-      })
-      .catch((err) => {
-        dispatch(error(err.response.data));
-      });
+    const token = getToken();
+    if (token === undefined) {
+      dispatch(
+        error({
+          error: true,
+          message: "Not Authenticated",
+        })
+      );
+    } else {
+      dispatch(requestProducts());
+      axios
+        .get("http://localhost:3000/user/", {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          dispatch(getUser(res.data));
+        })
+        .catch((err) => {
+          dispatch(error(err.response.data));
+        });
+    }
   };
 };
 
 export const create = (title, description, quantity, price) => {
   return function (dispatch) {
-    dispatch(requestProducts());
+    const token = getToken();
+    if (token === undefined) {
+      dispatch(
+        error({
+          error: true,
+          message: "Not Authenticated",
+        })
+      );
+    } else {
+      dispatch(requestProducts());
 
-    axios
-      .post(
-        "http://localhost:3000/products/create",
-        {
-          title: title,
-          description: description,
-          price: price,
-          quantity: quantity,
-        },
-        options
-      )
-      .then((res) => {
-        dispatch(createProduct(res.data));
-      })
-      .catch((err) => {
-        dispatch(error(err.response.data));
-      });
+      axios
+        .post(
+          "http://localhost:3000/products/create",
+          {
+            title: title,
+            description: description,
+            price: price,
+            quantity: quantity,
+          },
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          dispatch(createProduct(res.data));
+        })
+        .catch((err) => {
+          dispatch(error(err.response.data));
+        });
+    }
   };
 };
 
 export const deleteProd = (id, products) => {
   return function (dispatch) {
-    dispatch(requestProducts());
-    axios
-      .delete(`http://localhost:3000/products/delete/${id}`, options)
-      .then((res) => {
-        res.data.products = products;
-        dispatch(deleteProduct(res.data));
-      })
-      .catch((err) => {
-        dispatch(error(err.response.data));
-      });
+    const token = getToken();
+    if (token === undefined) {
+      dispatch(
+        error({
+          error: true,
+          message: "Not Authenticated",
+        })
+      );
+    } else {
+      dispatch(requestProducts());
+      axios
+        .delete(`http://localhost:3000/products/delete/${id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          res.data.products = products;
+          dispatch(deleteProduct(res.data));
+        })
+        .catch((err) => {
+          dispatch(error(err.response.data));
+        });
+    }
   };
 };
 
 export const update = (id, price, quantity) => {
   return function (dispatch) {
-    dispatch(requestProducts());
-    axios
-      .put(
-        `http://localhost:3000/products/update/${id}`,
-        {
-          quantity: quantity,
-          price: price,
-        },
-        options
-      )
-      .then((res) => {
-        dispatch(updateProduct(res.data));
-      })
-      .catch((err) => {
-        dispatch(error(err.response.data));
-      });
+    const token = getToken();
+    if (token === undefined) {
+      dispatch(
+        error({
+          error: true,
+          message: "Not Authenticated",
+        })
+      );
+    } else {
+      dispatch(requestProducts());
+      axios
+        .put(
+          `http://localhost:3000/products/update/${id}`,
+          {
+            quantity: quantity,
+            price: price,
+          },
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          dispatch(updateProduct(res.data));
+        })
+        .catch((err) => {
+          dispatch(error(err.response.data));
+        });
+    }
   };
 };

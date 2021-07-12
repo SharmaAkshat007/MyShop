@@ -1,8 +1,19 @@
 import React from "react";
-import { Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Navbar, Nav, Button } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
+import { connect } from "react-redux";
+import { doLogout } from "../../redux/auth/authReducer";
 
-function NavBar({ user }) {
+function NavBar(props) {
+  const user = props.user;
+  const logout = props.logout;
+
+  const history = useHistory();
+
+  const logoutAction = () => {
+    logout();
+    history.push("/login");
+  };
   return (
     <Navbar
       sticky="top"
@@ -35,9 +46,20 @@ function NavBar({ user }) {
             {user !== undefined && user.lastName}
           </Nav>
         </Nav>
+        <Nav>
+          <Button onClick={logoutAction} variant="outline-warning" size="sm">
+            Logout
+          </Button>
+        </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
 }
 
-export default NavBar;
+const mapStateToDispatch = (dispatch) => {
+  return {
+    logout: () => dispatch(doLogout()),
+  };
+};
+
+export default connect(null, mapStateToDispatch)(NavBar);

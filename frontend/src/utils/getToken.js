@@ -1,16 +1,12 @@
 const getToken = () => {
   const token = sessionStorage.getItem("jwt-token");
 
-  if (token !== null && token.length !== 0) {
-    return {
-      present: true,
-      token: token,
-    };
+  if (token === undefined) {
+    return undefined;
+  } else if (token === null) {
+    return undefined;
   } else {
-    return {
-      present: false,
-      token: token,
-    };
+    return token;
   }
 };
 

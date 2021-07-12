@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Redirect, withRouter, useParams } from "react-router-dom";
-import getToken from "../../utils/getToken";
 import NavBar from "./NavBar";
 import { user, update } from "../../redux/home/homeReducer";
 import { connect } from "react-redux";
@@ -64,7 +63,9 @@ function ProductUpdate(props) {
     }
   };
 
-  if (getToken().present) {
+  if (message === "Not Authenticated") {
+    return <Redirect to="/login"></Redirect>;
+  } else {
     if (
       data.error !== undefined &&
       data.error === false &&
@@ -75,11 +76,7 @@ function ProductUpdate(props) {
     return (
       <>
         <NavBar user={data.user} />
-        {error === true ? (
-          <AlertError message={message}></AlertError>
-        ) : (
-          <span></span>
-        )}
+
         <Container>
           <div
             className="mt-5"
@@ -87,6 +84,11 @@ function ProductUpdate(props) {
           >
             Update Product
           </div>
+          {error === true ? (
+            <AlertError message={message}></AlertError>
+          ) : (
+            <span></span>
+          )}
           <Form ref={formRef} onSubmit={updateProductAction}>
             <Form.Group controlId="price">
               <Form.Label>Price</Form.Label>
@@ -104,8 +106,6 @@ function ProductUpdate(props) {
         </Container>
       </>
     );
-  } else {
-    return <Redirect to="/login"></Redirect>;
   }
 }
 

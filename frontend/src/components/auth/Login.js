@@ -4,11 +4,10 @@ import { doLogin } from "../../redux/auth/authReducer";
 import { Form, Button, Container } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import validator from "../../utils/validation";
-import getToken from "../../utils/getToken";
 import AlertError from "../home/AlertError";
 
 function Login(props) {
-  const { data } = props.reqState;
+  const { authdata, isAuthenticated } = props.reqState;
   const login = props.login;
 
   const [error, setError] = useState(false);
@@ -17,16 +16,16 @@ function Login(props) {
   );
 
   useEffect(() => {
-    if (data.error !== undefined) {
-      if (data.error === true) {
-        setMessage(data.message);
+    if (authdata.error !== undefined) {
+      if (authdata.error === true) {
+        setMessage(authdata.message);
         setError(true);
-      } else if (data.error === false) {
+      } else if (authdata.error === false) {
         setError(false);
-        sessionStorage.setItem("jwt-token", data.jwtToken);
+        sessionStorage.setItem("jwt-token", authdata.jwtToken);
       }
     }
-  }, [data]);
+  }, [authdata]);
 
   const loginAction = (e) => {
     e.preventDefault();
@@ -45,7 +44,11 @@ function Login(props) {
     }
   };
 
-  if (data.error !== undefined && data.error === false && getToken().present) {
+  if (
+    authdata.error !== undefined &&
+    authdata.error === false &&
+    isAuthenticated
+  ) {
     return <Redirect to="/home"></Redirect>;
   } else {
     return (
