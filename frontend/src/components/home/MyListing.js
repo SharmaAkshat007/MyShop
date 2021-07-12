@@ -6,6 +6,7 @@ import { myProducts, deleteProd } from "../../redux/home/homeReducer";
 import { Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import AlertError from "./AlertError";
+import getToken from "../../utils/getToken";
 
 function MyListing(props) {
   const { error, message, user } = props.reqState.data;
@@ -26,7 +27,7 @@ function MyListing(props) {
     deleteProduct(id, products);
   };
 
-  if (message === "Not Authenticated") {
+  if (getToken() === 'undefined' || getToken() === null) {
     return <Redirect to="/login"></Redirect>;
   } else {
     return (

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import AlertError from "./AlertError";
 import { Container, Form, Button } from "react-bootstrap";
 import validator from "../../utils/validation";
+import getToken from "../../utils/getToken";
 
 function ProductUpdate(props) {
   const { data } = props.reqState;
@@ -63,7 +64,7 @@ function ProductUpdate(props) {
     }
   };
 
-  if (message === "Not Authenticated") {
+  if (getToken() === 'undefined' || getToken() === null) {
     return <Redirect to="/login"></Redirect>;
   } else {
     if (

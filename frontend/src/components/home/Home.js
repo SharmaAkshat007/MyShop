@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import NavBar from "./NavBar";
 import AlertError from "./AlertError";
+import getToken from "../../utils/getToken";
 
 function Home(props) {
   const { error, message, products, user } = props.reqState;
@@ -16,7 +17,7 @@ function Home(props) {
     getProducts();
   }, []);
 
-  if (message === "Not Authenticated") {
+  if (getToken() === "undefined" || getToken() === null) {
     return <Redirect to="/login"></Redirect>;
   } else {
     return (

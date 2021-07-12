@@ -87,7 +87,12 @@ export const products = () => {
   return function (dispatch) {
     const token = getToken();
 
-    if (token === undefined) {
+  
+
+    
+
+    if (token === 'undefined' || token === null) {
+      //console.log("null");
       dispatch(
         error({
           error: true,
@@ -116,7 +121,7 @@ export const myProducts = () => {
   return function (dispatch) {
     const token = getToken();
 
-    if (token === undefined) {
+    if (token === 'undefined'|| token === null) {
       dispatch(
         error({
           error: true,
@@ -144,7 +149,7 @@ export const myProducts = () => {
 export const user = () => {
   return function (dispatch) {
     const token = getToken();
-    if (token === undefined) {
+    if (token === 'undefined'|| token === null) {
       dispatch(
         error({
           error: true,
@@ -172,7 +177,7 @@ export const user = () => {
 export const create = (title, description, quantity, price) => {
   return function (dispatch) {
     const token = getToken();
-    if (token === undefined) {
+    if (token === 'undefined'|| token === null) {
       dispatch(
         error({
           error: true,
@@ -210,7 +215,7 @@ export const create = (title, description, quantity, price) => {
 export const deleteProd = (id, products) => {
   return function (dispatch) {
     const token = getToken();
-    if (token === undefined) {
+    if (token === 'undefined'|| token === null) {
       dispatch(
         error({
           error: true,
@@ -239,7 +244,7 @@ export const deleteProd = (id, products) => {
 export const update = (id, price, quantity) => {
   return function (dispatch) {
     const token = getToken();
-    if (token === undefined) {
+    if (token === 'undefined'|| token === null) {
       dispatch(
         error({
           error: true,

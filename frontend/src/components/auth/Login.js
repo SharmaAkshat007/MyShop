@@ -7,7 +7,7 @@ import validator from "../../utils/validation";
 import AlertError from "../home/AlertError";
 
 function Login(props) {
-  const { authdata, isAuthenticated } = props.reqState;
+  const { authdata } = props.reqState;
   const login = props.login;
 
   const [error, setError] = useState(false);
@@ -45,9 +45,8 @@ function Login(props) {
   };
 
   if (
-    authdata.error !== undefined &&
-    authdata.error === false &&
-    isAuthenticated
+    authdata.message !== undefined &&
+    authdata.message === "Authentication done"
   ) {
     return <Redirect to="/home"></Redirect>;
   } else {

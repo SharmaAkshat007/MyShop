@@ -6,6 +6,7 @@ import { Container, Form, Button } from "react-bootstrap";
 import { user, create } from "../../redux/home/homeReducer";
 import AlertError from "./AlertError";
 import validator from "../../utils/validation";
+import getToken from "../../utils/getToken";
 
 function CreateListing(props) {
   const { data } = props.reqState;
@@ -52,7 +53,7 @@ function CreateListing(props) {
     }
   };
 
-  if (message === "Not Authenticated") {
+  if (getToken() === 'undefined' || getToken() === null) {
     return <Redirect to="/login"></Redirect>;
   } else {
     if (

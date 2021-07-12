@@ -5,7 +5,6 @@ import axios from "axios";
 
 const intitialState = {
   loading: false,
-  isAuthenticated: false,
   authdata: {},
 };
 
@@ -14,13 +13,11 @@ export const authReducer = (state = intitialState, action) => {
     case LOGIN:
       return {
         loading: false,
-        isAuthenticated: true,
         authdata: action.payload,
       };
     case SIGNUP:
       return {
         loading: false,
-        isAuthenticated: false,
         authdata: action.payload,
       };
 
@@ -33,13 +30,11 @@ export const authReducer = (state = intitialState, action) => {
     case ERROR:
       return {
         loading: false,
-        isAuthenticated: false,
         authdata: action.payload,
       };
     case LOGOUT:
       return {
         loading: false,
-        isAuthenticated: false,
         authdata: action.payload,
       };
 

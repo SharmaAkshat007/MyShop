@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import getToken from "../utils/getToken";
 
 function Wrapper() {
-  if (getToken() === null) {
+  if (getToken() === null || getToken() === 'undefined') {
     return <Redirect to="/login"></Redirect>;
   } else {
     return <Redirect to="/home"></Redirect>;
